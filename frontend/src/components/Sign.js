@@ -38,10 +38,14 @@ function handelSubmit(event) {
       password: dsignin.pass
       
   }
-  console.log(Signin);
+  
    axios.post('http://localhost:4000/regiss/signin', Signin).then(function (response) {
        console.log(response.data);
-      
+      if(response.data==='true'){
+
+      }else{
+        alert("wrong credentials")
+      }
        return response.data;
    }).catch(function (error) {
            console.log(error);

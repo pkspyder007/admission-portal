@@ -8,7 +8,7 @@ function App() {
   const [currentState, setCurrentState] = useState(true);
 
   function changeHere(){
-    console.log("will")
+    
     setCurrentState(!currentState);
   }
   

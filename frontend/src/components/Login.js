@@ -39,8 +39,7 @@ function Login(props) {
             console.log(response.data);
             alert(response.data);
             return response.data;
-        })
-            .catch(function (error) {
+        }).catch(function (error) {
                 console.log(error);
             });
 

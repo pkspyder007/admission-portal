@@ -82,8 +82,8 @@ admissionRoutes.route('/singup').post(function(req, res) {
 });
 admissionRoutes.route('/signin').post(function(req,res){
     let newEmail=req.body.email;
-    let newPassword='Akshat12@';
-    bcrypt.hash(newPassword, saltRounds,function(err,hash){
+    let newPassword=req.body.password;
+    
         
         Regis.findOne({email:newEmail},function(err,foundEmail){
             if(!err){
@@ -91,19 +91,23 @@ admissionRoutes.route('/signin').post(function(req,res){
                     res.send("wrong credentials");
                 }
                 else{
-                    if(foundEmail.password===hash){
-                        res.json({'login':'true'});
-                    }
-                    else{
-                        console.log(newEmail);
-                        console.log(foundEmail.password);
-                        console.log(hash);
-                        res.send("wrong credentials")
-                    }
+                   
+                    bcrypt.compare(newPassword,foundEmail.password,function(err,results){
+                        if(results===true){
+                            res.json({'login':'true'});
+                        } else{
+                       
+                            res.send("wrong credentials")
+                        }
+                       
+                    });
+                   
+                        
+                  
                 }
             }
         })
-    });
+    
 
 });
 
