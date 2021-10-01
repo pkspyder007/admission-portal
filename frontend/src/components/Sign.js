@@ -1,10 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from 'axios';
 import signup from '../images/signup-image.jpg'
 function Sign(props) {
+  const [dsignin, newSignin] = useState({
+    
+    email: "",
+    pass: "",
+    agreeterm: false
+});
   function change(e) {
       e.preventDefault();
     props.currentView();
   }
+  
+  function handelChange(event) {
+    const { name, value } = event.target;
+
+
+    newSignin((prevValue) => {
+        if (name !== "agreeterm")
+            return {
+                ...prevValue,
+                [name]: value
+            }
+        else {
+            return {
+                ...prevValue,
+                [name]: !prevValue.agreeterm
+            }
+        }
+    });
+}
+function handelSubmit(event) {
+  const Signin = {
+      
+      email: dsignin.email,
+      password: dsignin.pass
+      
+  }
+  console.log(Signin);
+   axios.post('http://localhost:4000/regiss/signin', Signin).then(function (response) {
+       console.log(response.data);
+      
+       return response.data;
+   }).catch(function (error) {
+           console.log(error);
+       });
+
+
+
+  newSignin(() => {
+      return {
+          
+          email: "",
+          pass: "",
+      
+          agreeterm: false
+      }
+  })
+  event.preventDefault();
+}
 
   return (
     <>
@@ -22,27 +77,31 @@ function Sign(props) {
 
             <div className="signin-form">
               <h2 className="form-title">Sign in</h2>
-              <form onSubmit={this.onSubmit} className="register-form" id="login-form">
+              <form onSubmit={handelSubmit} className="register-form" id="login-form">
               <div className="form-group">
-                                <label for="email"><i classNameName="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email"/>
+                                <label for="email"><i className="zmdi zmdi-email"></i></label>
+                                <input onChange={handelChange} type="email"value={dsignin.email} name="email" id="email" placeholder="Your Email"/>
                             </div>
                 <div className="form-group">
-                  <label for="your_pass">
+                  <label for="pass">
                     <i className="zmdi zmdi-lock"></i>
                   </label>
                   <input
+                    onChange={handelChange}
                     type="password"
-                    name="your_pass"
-                    id="your_pass"
+                    value={dsignin.pass}
+                    name="pass"
+                    id="pass"
                     placeholder="Password"
                   />
                 </div>
                 <div className="form-group">
                   <input
+                    onChange={handelChange}
                     type="checkbox"
                     name="remember-me"
                     id="remember-me"
+                    value={dsignin.agreeterm}
                     className="agree-term"
                   />
                   <label for="remember-me" className="label-agree-term">

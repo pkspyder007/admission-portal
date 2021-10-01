@@ -5,7 +5,9 @@ const cors = require('cors');
 const mongoose = require("mongoose");
 const PORT = 4000;
 const admissionRoutes = express.Router();
-const dotenv = require('dotenv')
+const dotenv = require('dotenv');
+const bcrypt = require("bcrypt");
+const saltRounds=10;
 dotenv.config();
 let Regis=require('./signup.model');
 const { log } = require('debug');
@@ -34,17 +36,41 @@ admissionRoutes.route("/").get(function(req,res){
 });
 admissionRoutes.route('/singup').post(function(req, res) {
 
-    let regis = new Regis(req.body);
-    let newemail=regis.email;
-    Regis.findOne({email:newemail},function(err,foundEmail){
+    
+    let newEmail=req.body.email;
+    let newPassword=req.body.password;
+    let newRepassword=req.body.repassword;
+    let jeeRoll=req.body.jeeroll;
+    
+    Regis.findOne({email:newEmail},function(err,foundEmail){
         if(!err){
             if(!foundEmail){
                 console.log("Users is not registered");
+
                 console.log(req.body);
-                regis.save()
+                if(newPassword===newRepassword){
+                    
+                    bcrypt.hash(newPassword, saltRounds,function(err,hash){
+                        let regi = new Regis({
+                            jeeroll: jeeRoll,
+                            email: newEmail,
+                            password: hash
+                        });
+                        regi.save();
+                    });
+                    
+                   
+                    res.send("You got registered");
+                }
+                else{
+                    console.log("Password did'nt match");
+                    res.send("Your Password did not matches");
+                }
+                
             }
             else{
                 console.log("User is already register please login");
+                res.send("You are already register please login");
             }
         }
         else{
@@ -52,13 +78,33 @@ admissionRoutes.route('/singup').post(function(req, res) {
         }
     })
     
-        .then(regis => {
-            res.status(200).json({'regis': 'regis added successfully'});
-            
+        
+});
+admissionRoutes.route('/signin').post(function(req,res){
+    let newEmail=req.body.email;
+    let newPassword='Akshat12@';
+    bcrypt.hash(newPassword, saltRounds,function(err,hash){
+        
+        Regis.findOne({email:newEmail},function(err,foundEmail){
+            if(!err){
+                if(!foundEmail){
+                    res.send("wrong credentials");
+                }
+                else{
+                    if(foundEmail.password===hash){
+                        res.json({'login':'true'});
+                    }
+                    else{
+                        console.log(newEmail);
+                        console.log(foundEmail.password);
+                        console.log(hash);
+                        res.send("wrong credentials")
+                    }
+                }
+            }
         })
-        .catch(err => {
-            res.status(400).send('adding new regis failed');
-        });
+    });
+
 });
 
 app.use('/regiss', admissionRoutes);

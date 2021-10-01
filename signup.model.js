@@ -11,9 +11,6 @@ let Regis = new Schema({
     },
     password: {
         type: String
-    },
-    repassword:{
-        type:String
     }
 });
 module.exports = mongoose.model('Regis', Regis);

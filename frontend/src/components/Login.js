@@ -12,41 +12,49 @@ function Login(props) {
     });
     function handelChange(event) {
         const { name, value } = event.target;
-        
+
 
         newSignup((prevValue) => {
-            if(name!=="agreeterm")
-          return {
-              ...prevValue,
-              [name]:value 
-          }  
-          else {
-              return{
-                  ...prevValue,
-                  [name]: !prevValue.agreeterm
-              }
-          }
+            if (name !== "agreeterm")
+                return {
+                    ...prevValue,
+                    [name]: value
+                }
+            else {
+                return {
+                    ...prevValue,
+                    [name]: !prevValue.agreeterm
+                }
+            }
         });
     }
-    function handelSubmit(event){
-        const Reg ={
-            jeeroll: dsignup.jeeroll ,
-            email: dsignup.email ,
-            password: dsignup.pass, 
-            repassword : dsignup.repass
+    function handelSubmit(event) {
+        const Reg = {
+            jeeroll: dsignup.jeeroll,
+            email: dsignup.email,
+            password: dsignup.pass,
+            repassword: dsignup.repass
         }
-        axios.post('http://localhost:4000/regiss/singup', Reg);
-        console.log(Reg);
-        
-        newSignup(()=>{
+        axios.post('http://localhost:4000/regiss/singup', Reg).then(function (response) {
+            console.log(response.data);
+            alert(response.data);
+            return response.data;
+        })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
+
+        newSignup(() => {
             return {
-            jeeroll: "",
-            email: "",
-            pass: "",
-            repass: "",
-            agreeterm: false
+                jeeroll: "",
+                email: "",
+                pass: "",
+                repass: "",
+                agreeterm: false
             }
-            })
+        })
         event.preventDefault();
     }
 
@@ -65,11 +73,11 @@ function Login(props) {
                                 <div className="form-group">
                                     <label for="jeeroll"><i className="zmdi zmdi-account material-icons-name"></i></label>
                                     <input required value={dsignup.jeeroll} onChange={handelChange}
-                                        type = "text" name="jeeroll" id="jeeroll" placeholder="Your JEE Roll" />
+                                        type="text" name="jeeroll" id="jeeroll" placeholder="Your JEE Roll" />
                                 </div>
                                 <div className="form-group">
                                     <label for="email"><i className="zmdi zmdi-email"></i></label>
-                                    <input required value={dsignup.email} onChange={handelChange} type="email" name="email" id="email"  placeholder="Your Email" />
+                                    <input required value={dsignup.email} onChange={handelChange} type="email" name="email" id="email" placeholder="Your Email" />
                                 </div>
                                 <div className="form-group">
                                     <label for="pass"><i className="zmdi zmdi-lock"></i></label>
