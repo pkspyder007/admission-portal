@@ -32,10 +32,26 @@ admissionRoutes.route("/").get(function(req,res){
         }
     })
 });
-admissionRoutes.route('/add').post(function(req, res) {
+admissionRoutes.route('/singup').post(function(req, res) {
+
     let regis = new Regis(req.body);
-    console.log(req.body);
-    regis.save()
+    let newemail=regis.email;
+    Regis.findOne({email:newemail},function(err,foundEmail){
+        if(!err){
+            if(!foundEmail){
+                console.log("Users is not registered");
+                console.log(req.body);
+                regis.save()
+            }
+            else{
+                console.log("User is already register please login");
+            }
+        }
+        else{
+            console.log(err);
+        }
+    })
+    
         .then(regis => {
             res.status(200).json({'regis': 'regis added successfully'});
             
