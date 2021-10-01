@@ -7,10 +7,12 @@ const PORT = 4000;
 const admissionRoutes = express.Router();
 const dotenv = require('dotenv')
 dotenv.config();
+let Regis=require('./signup.model');
+const { log } = require('debug');
 
 app.use(cors());
 app.use(bodyParser.json());
-console.log(process.env['MONGODBCRED']);
+
 mongoose.connect("mongodb+srv://"+process.env['MONGODBCRED']+"@cluster0.phmm3.mongodb.net/admissionPortal", { 
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -21,25 +23,32 @@ connection.once('open', function() {
     console.log("MongoDB database connection established successfully");
 })
 
-const Schema = mongoose.Schema;
-
-
-let regis = new Schema({
-    name: {
-        type: String
-    },
-    email: {
-        type: String
-    },
-    password: {
-        type: String
-    }
+admissionRoutes.route("/").get(function(req,res){
+    Regis.find(function(err,regiss){
+        if(err){
+            console.log(err);
+        }else{
+            res.json(regiss)
+        }
+    })
+});
+admissionRoutes.route('/add').post(function(req, res) {
+    let regis = new Regis(req.body);
+    console.log(req.body);
+    regis.save()
+        .then(regis => {
+            res.status(200).json({'regis': 'regis added successfully'});
+            
+        })
+        .catch(err => {
+            res.status(400).send('adding new regis failed');
+        });
 });
 
-app.use('/',admissionRoutes );
-admissionRoutes.route('/')
+app.use('/regiss', admissionRoutes);
 
-module.exports = mongoose.model('regis', regis);
+
 app.listen(PORT, function() {
     console.log("Server is running on Port: " + PORT);
 });
+
