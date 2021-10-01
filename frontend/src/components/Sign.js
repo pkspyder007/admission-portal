@@ -40,9 +40,9 @@ function handelSubmit(event) {
   }
   
    axios.post('http://localhost:4000/regiss/signin', Signin).then(function (response) {
-       console.log(response.data);
-      if(response.data==='true'){
-
+       
+      if(response.data.login==='true'){
+        console.log(response.data);
       }else{
         alert("wrong credentials")
       }
