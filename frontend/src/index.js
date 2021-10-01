@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './css/style.css';
+import './fonts/material-icon/css/material-design-iconic-font.min.css';
 import App from './App';
+
+
 
 ReactDOM.render(
   <React.StrictMode>
@@ -9,3 +12,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+
