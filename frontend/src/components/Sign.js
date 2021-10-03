@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from 'axios';
 import signup from '../images/signup-image.jpg'
 function Sign(props) {
+  const [loginStatus,newloginStatus]=useState("false");
   const [dsignin, newSignin] = useState({
     
     email: "",
@@ -42,9 +43,12 @@ function handelSubmit(event) {
    axios.post('http://localhost:4000/regiss/signin', Signin).then(function (response) {
        
       if(response.data.login==='true'){
-        console.log(response.data);
-      }else{
-        alert("wrong credentials")
+        newloginStatus=response.data.login;
+      }else if(response.data.verification==='false'){
+        alert("Please verify your email")
+      }
+      else{
+        alert("Incorrect creditential")
       }
        return response.data;
    }).catch(function (error) {

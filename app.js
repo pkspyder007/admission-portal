@@ -4,12 +4,12 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require("mongoose");
 const PORT = 4000;
-const admissionRoutes = express.Router();
+
 const dotenv = require('dotenv');
 const bcrypt = require("bcrypt");
 const saltRounds=10;
 dotenv.config();
-let Regis=require('./signup.model');
+let Regis=require('./models/signup.model');
 const { log } = require('debug');
 
 app.use(cors());
@@ -25,17 +25,7 @@ connection.once('open', function() {
     console.log("MongoDB database connection established successfully");
 })
 
-admissionRoutes.route("/").get(function(req,res){
-    Regis.find(function(err,regiss){
-        if(err){
-            console.log(err);
-        }else{
-            res.json(regiss)
-        }
-    })
-});
-admissionRoutes.route('/singup').post(function(req, res) {
-
+app.post("/regiss/singup",function(req,res){
     
     let newEmail=req.body.email;
     let newPassword=req.body.password;
@@ -54,7 +44,8 @@ admissionRoutes.route('/singup').post(function(req, res) {
                         let regi = new Regis({
                             jeeroll: jeeRoll,
                             email: newEmail,
-                            password: hash
+                            password: hash,
+                            verification:false
                         });
                         regi.save();
                     });
@@ -78,9 +69,8 @@ admissionRoutes.route('/singup').post(function(req, res) {
         }
     })
     
-        
-});
-admissionRoutes.route('/signin').post(function(req,res){
+  });
+app.post("/regiss/signin",function(req,res){
     let newEmail=req.body.email;
     let newPassword=req.body.password;
     
@@ -88,19 +78,25 @@ admissionRoutes.route('/signin').post(function(req,res){
         Regis.findOne({email:newEmail},function(err,foundEmail){
             if(!err){
                 if(!foundEmail){
-                    res.send("wrong credentials");
+                    res.json({'login':'false'});
                 }
                 else{
-                   
+                   if(foundEmail.verification===true){
                     bcrypt.compare(newPassword,foundEmail.password,function(err,results){
                         if(results===true){
                             res.json({'login':'true'});
                         } else{
                        
-                            res.send("wrong credentials")
+                            res.json({'login':'false'});
                         }
                        
                     });
+                }
+                else{
+                    res.json({'login':'false',
+                                'verification':'false'
+                })
+                }
                    
                         
                   
@@ -111,7 +107,8 @@ admissionRoutes.route('/signin').post(function(req,res){
 
 });
 
-app.use('/regiss', admissionRoutes);
+
+
 
 
 app.listen(PORT, function() {

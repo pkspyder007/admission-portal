@@ -11,6 +11,9 @@ let Regis = new Schema({
     },
     password: {
         type: String
+    },
+    verification:{
+        type:Boolean
     }
 });
 module.exports = mongoose.model('Regis', Regis);
