@@ -14,6 +14,9 @@ let Regis = new Schema({
     },
     verification:{
         type:Boolean
+    },
+    verificationid:{
+        type:String
     }
 });
 module.exports = mongoose.model('Regis', Regis);
