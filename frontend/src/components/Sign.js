@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from 'axios';
 import signup from '../images/signup-image.jpg'
+import {Redirect} from "react-router-dom";
+
 function Sign(props) {
-  const [loginStatus,newloginStatus]=useState("false");
+  
   const [dsignin, newSignin] = useState({
     
     email: "",
@@ -43,7 +45,10 @@ function handelSubmit(event) {
    axios.post('http://localhost:4000/regiss/signin', Signin).then(function (response) {
        
       if(response.data.login==='true'){
-        newloginStatus=response.data.login;
+        console.log("ok");
+        props.currentLogin();
+        <Redirect to="/dashboard" />
+        
       }else if(response.data.verification==='false'){
         alert("Please verify your email")
       }

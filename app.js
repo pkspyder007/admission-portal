@@ -169,8 +169,13 @@ app.get("/verify", function(req,res){
         if(!err){
             if(foundUser){
             
-
-                res.send('<h1>Your email is verfication is succesfull you can now login</h1>');
+                if(foundUser.verification){
+                    res.send('<h1>Your email is already verfied  you can now login</h1>');
+                }
+                else{
+                    res.send('<h1>Your email verfication is succesfull you can now login</h1>');
+                }
+                
             }
             else{
                 res.send('<h1 style="color:red;" >Your email is verfication is unsuccesfull you can contact adminstration</h1>');
