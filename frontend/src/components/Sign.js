@@ -4,7 +4,7 @@ import signup from '../images/signup-image.jpg'
 import {Redirect} from "react-router-dom";
 
 function Sign(props) {
-  
+  const [href,setHref]= useState("/")
   const [dsignin, newSignin] = useState({
     
     email: "",
@@ -47,7 +47,7 @@ function handelSubmit(event) {
       if(response.data.login==='true'){
         console.log("ok");
         props.currentLogin();
-        <Redirect to="/dashboard" />
+        setHref("/dashboard");
         
       }else if(response.data.verification==='false'){
         alert("Please verify your email")
@@ -90,11 +90,11 @@ function handelSubmit(event) {
 
             <div className="signin-form">
               <h2 className="form-title">Sign in</h2>
-              <form onSubmit={handelSubmit} className="register-form" id="login-form">
+              <form onSubmit={handelSubmit} href={href} className="register-form" id="login-form">
               <div className="form-group">
-                                <label for="email"><i className="zmdi zmdi-email"></i></label>
-                                <input onChange={handelChange} type="email"value={dsignin.email} name="email" id="email" placeholder="Your Email"/>
-                            </div>
+              <label for="email"><i className="zmdi zmdi-email"></i></label>
+              <input onChange={handelChange} type="email"value={dsignin.email} name="email" id="email" placeholder="Your Email"/>
+              </div>
                 <div className="form-group">
                   <label for="pass">
                     <i className="zmdi zmdi-lock"></i>
