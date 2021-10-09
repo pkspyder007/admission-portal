@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import signup from '../images/signup-image.jpg'
-import {Redirect} from "react-router-dom";
+import signup from '../images/signup-image.jpg';
+
 
 function Sign(props) {
   const [href,setHref]= useState("/")
@@ -121,7 +121,7 @@ function handelSubmit(event) {
                     <span>
                       <span></span>
                     </span>
-                    Remember me
+                    Remember me for 7 days
                   </label>
                 </div>
                 <div className="form-group form-button">

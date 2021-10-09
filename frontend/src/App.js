@@ -11,12 +11,13 @@ function App() {
   const [currentState, setCurrentState] = useState(true);
   function readCookie(){
   const  validation= Cookies.get("validation");
-    if(validation==="true"){
-      setCurrentValidation(true);
-    }
+  setCurrentValidation(true);
   }  
   React.useEffect(() => {
-      readCookie();
+      
+        readCookie();
+      
+      
     }, [])
   
   function changeHere() {
@@ -24,18 +25,23 @@ function App() {
   }
   
   function changeValidation() {
-    setCurrentValidation(!currentValidation);
-    if(currentValidation===true){
-      Cookies.set('validation', 'true' , {expires: 7});
-    }else{
-      Cookies.remove('validaton');
-    }
+    
+    setCurrentValidation(true);
    
+      Cookies.set('validation', true , {expires: 7});
+    
+   
+    
+   
+  }
+  function removeValidation(){
+    setCurrentValidation(false);
+    Cookies.remove('validation');
   }
   return (
     <Router>
       <Route exact path="/">{currentValidation?<Redirect to="/dashboard" />:currentState ? (<Login currentView={changeHere} />) :(<Sign currentView={changeHere} currentLogin={changeValidation} />)}{" "}</Route>
-      <Route path="/dashboard">{currentValidation?<Dashboard currentLogin={changeValidation}/>:<Redirect to="/" />}</Route>
+      <Route path="/dashboard">{currentValidation?<Dashboard currentLogin={removeValidation}/>:<Redirect to="/" />}</Route>
     </Router>
   );
 }
