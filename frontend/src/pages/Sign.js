@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import axios from 'axios';
-import signup from '../images/signup-image.jpg';
-
-
+import '../css/style.css';
+import '../fonts/material-icon/css/material-design-iconic-font.min.css';
+import svgsingup from '../images/undraw_secure_login_pdn4.svg';
+import Popup from "../components/Popup";
 function Sign(props) {
-  const [href,setHref]= useState("/")
+  const [isOpen,setIsOpen]= useState(false);
+  const [popupContent, setPopupContent]=useState({
+    heading:"",
+    content:""
+  });
+  const [href,setHref]= useState("/");
   const [dsignin, newSignin] = useState({
     
     email: "",
     pass: "",
     agreeterm: false
 });
+function togglePopup(){
+  setIsOpen(!isOpen);
+}
   function change(e) {
       e.preventDefault();
     props.currentView();
@@ -50,10 +59,20 @@ function handelSubmit(event) {
         setHref("/dashboard");
         
       }else if(response.data.verification==='false'){
-        alert("Please verify your email")
+        setPopupContent({
+          heading:"Email Verifcation",
+          content:"Please verify your mail. Don't forgot to check in spam. For furthur quries contact adminstration."
+        });
+        togglePopup();
+        
       }
       else{
-        alert("Incorrect creditential")
+        setPopupContent({
+          heading:"Incorrect creditential",
+          content:""
+        });
+        togglePopup();
+        
       }
        return response.data;
    }).catch(function (error) {
@@ -77,11 +96,12 @@ function handelSubmit(event) {
   return (
     <>
       <section className="sign-in">
+      {isOpen&& <Popup content={popupContent.content} heading={popupContent.heading} handleClose={togglePopup}/>}
         <div className="container">
           <div className="signin-content">
             <div className="signin-image">
               <figure>
-                <img src={signup} alt="" />
+                <img src={svgsingup} alt="" />
               </figure>
               <a href="#" onClick={change} className="signup-image-link">
                 Create an account
@@ -139,6 +159,7 @@ function handelSubmit(event) {
           </div>
         </div>
       </section>
+    
     </>
   );
 }

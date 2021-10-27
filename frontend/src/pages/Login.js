@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import signin from '../images/signin-image.jpg'
+import '../css/style.css';
+import '../fonts/material-icon/css/material-design-iconic-font.min.css';
+import svglogin from '../images/undraw_Access_account_re_8spm.svg';
+import Popup from '../components/Popup';
 
 function Login(props) {
+    const [isOpen, setIsOpen] = useState(false);
+    const [popupContent, setPopupContent] = useState({
+        heading: "",
+        content: ""
+    });
     const [dsignup, newSignup] = useState({
         jeeroll: "",
         email: "",
@@ -10,6 +18,9 @@ function Login(props) {
         repass: "",
         agreeterm: false
     });
+    function togglePopup(){
+        setIsOpen(!isOpen);
+      }
     function handelChange(event) {
         const { name, value } = event.target;
 
@@ -36,12 +47,16 @@ function Login(props) {
             repassword: dsignup.repass
         }
         axios.post('http://localhost:4000/regiss/singup', Reg).then(function (response) {
-            console.log(response.data);
-            alert(response.data);
+            setPopupContent({
+                heading:response.data,
+                content:""
+              });
+              togglePopup();
+           
             return response.data;
         }).catch(function (error) {
-                console.log(error);
-            });
+            console.log(error);
+        });
 
 
 
@@ -64,6 +79,7 @@ function Login(props) {
     return (
         <>
             <section className="signup">
+            {isOpen&& <Popup content={popupContent.content} heading={popupContent.heading} handleClose={togglePopup}/>}
                 <div className="container">
                     <div className="signup-content">
                         <div className="signup-form">
@@ -96,7 +112,7 @@ function Login(props) {
                             </form>
                         </div>
                         <div className="signup-image">
-                            <figure><img src={signin} alt="sing up image" /></figure>
+                            <figure><img src={svglogin} alt="sing up image" /></figure>
                             <a href="#" onClick={change} className="signup-image-link">I am already member</a>
                         </div>
                     </div>

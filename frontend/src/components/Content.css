@@ -1,0 +1,10 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.content-container{
+    
+    position: absolute;
+    left: 20%;
+    top: 0;
+}
