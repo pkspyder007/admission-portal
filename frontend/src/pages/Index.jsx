@@ -10,16 +10,20 @@ function Index(props){
             password: localStorage.getItem('password')
             
         }
-        
+        console.log(Signin.email);
+        console.log(Signin.password);
         axios.post('http://localhost:4000/regiss/signin',Signin).then(function(response){
-            if(response.data.login){
+            if(response.data.login===true){
+                console.log(response.data.login);
+                props.history.push("/dashboard");
+                
+            }else{
                 notification["error"]({
                     message:"Please Login to continue",
                     description:"You have been logout. Please Login again"
                 });
+                console.log(response.data.login);
                 props.history.push("/login");
-            }else{
-                props.history.push("/dashboard");
             }
         }).catch(function (error) {
             if(!error.response.auth){
@@ -31,8 +35,12 @@ function Index(props){
             }
 
         });
+        Signin={
+            email:"",
+            password:""
+          }
         
-    })
+    },[])
     return (
       <>
       </>

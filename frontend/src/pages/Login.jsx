@@ -1,30 +1,34 @@
 import React, {useEffect,useState} from 'react';
-
+import Cookies from 'js-cookie';
 import axios from 'axios';
 import { notification } from 'antd';
 import loginsvg from '../images/undraw_secure_login_pdn4.svg'
 function Login(props) {
+  
     useEffect(()=>{
       let Signin = {
             
-        email: localStorage.getItem('email'),
-        password: localStorage.getItem('password')
+        email: Cookies.get('email'),
+        password: Cookies.get('password')
         
     }
         axios.post('http://localhost:4000/regiss/signin',Signin).then(function(response){
-            if(response.data.login){
-                props.history.push("/");
+            if(response.data.login===true){
+              
+                props.history.push("/dashboard");
+                
             }else{
-                notification["error"]({
-                    message:"Please Login to continue",
-                    description:"You have been logout. Please Login again"
-                })
+              
             }
         }).catch(function (error) {
             console.log(error);
         });
+        Signin={
+          email:"",
+          password:""
+        }
         
-    })
+    },[])
     const [dsignin, newSignin] = useState({
     
         email: "",
@@ -61,9 +65,10 @@ function Login(props) {
              
             if(response.data.login===true){
               console.log("ok");
-              localStorage.setItem('password', response.data.password);
-              localStorage.setItem('email', response.data.email);
-              props.history.push('/');
+              Cookies.set('email',response.data.email,{expires:1});
+              Cookies.set('password',response.data.password,{expires:1});
+             
+              props.history.push('/dashboard');
               
             }else if(response.data.verification===false){
                 notification["error"]({
@@ -104,13 +109,13 @@ function Login(props) {
     <>
    <section className="sign-in">
       
-        <div className="container">
+        <div className="containers">
           <div className="signin-content">
             <div className="signin-image">
               <figure>
                 <img src={loginsvg} alt="" />
               </figure>
-              <a href="#"  className="signup-image-link">
+              <a href="/register"  className="signup-image-link">
                 Create an account
               </a>
             </div>
