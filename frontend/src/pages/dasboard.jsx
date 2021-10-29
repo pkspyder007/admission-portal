@@ -36,7 +36,8 @@ function Dashboard(props){
   
     return(
         <>
-        <Navbars />
+        <Navbars  />
+
         
       
         </>

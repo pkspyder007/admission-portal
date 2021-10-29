@@ -4,7 +4,7 @@ import axios from 'axios';
 import { notification } from 'antd';
 import loginsvg from '../images/undraw_secure_login_pdn4.svg'
 function Login(props) {
-  
+  const[nhref,setnhref]=useState(false);
     useEffect(()=>{
       let Signin = {
             
@@ -67,7 +67,7 @@ function Login(props) {
               console.log("ok");
               Cookies.set('email',response.data.email,{expires:1});
               Cookies.set('password',response.data.password,{expires:1});
-             
+              setnhref(true);
               props.history.push('/dashboard');
               
             }else if(response.data.verification===false){
@@ -143,6 +143,7 @@ function Login(props) {
                 
                 <div className="form-group form-button">
                   <input
+                    
                     type="submit"
                     name="signin"
                     id="signin"
