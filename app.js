@@ -59,7 +59,7 @@ const smtpTransport = nodemailer.createTransport({
   },
 });
 // for new registeration
-app.post("/regiss/singup", function (req, res) {
+app.post("/register", function (req, res) {
   let newEmail = req.body.email;
   let newPassword = req.body.password;
   let newRepassword = req.body.repassword;
@@ -122,7 +122,7 @@ app.post("/regiss/singup", function (req, res) {
   });
 });
 // for login
-app.post("/regiss/signin", function (req, res) {
+app.post("/login", function (req, res) {
   let newEmail = req.body.email;
   let newPassword = req.body.password;
 
@@ -164,7 +164,115 @@ app.post("/regiss/signin", function (req, res) {
     }
   });
 });
+// profile
+app.post("/profile", function(req,res){
+  let newEmail=req.body.email;
+      Regis.findOne({email: newEmail},
+        function(err,foundEmail){
+          if(!err){
+            if(foundEmail){
+              res.json({
+                user:true,
+                name:foundEmail.jeeroll,
+                email:foundEmail.email,
+                phone: foundEmail.phone
+              });
+            }
+            else{
+              res.json({user:false});
+            }
+          }
+          else{
+            console.log(err);
+          }
+         
+        }
+        )
+});
+// add phone number
+app.patch("/phone", function(req,res){
+    let addphone= {
+      email:req.body.email,
+      phone:req.body.phone
+    };
+    Regis.findOneAndUpdate(
+      {email:addphone.email},
+      {phone: addphone.phone},
+      function(err){
+        if(!err){
+          
+          res.send("Your Number added sucessfull ");
+        }
+        else{
+          console.log(err);
+        }
+      }
+    )
+})
+// change password
+// app.patch("/newpassword", function(req,res){
+//   let vars=true;
+//   let newpassword ={
+//     email:req.body.email,
+//     oldpassword: req.body.pass,
+//     newpass: req.body.newpass
+//   };
+//   Regis.findOne(
+//     {email:newpassword.email},
+//     function(err, foundEmail){
+//       if(!err){
+//         if(foundEmail){
+//           bcrypt.compare(
+//             newpassword.oldpassword,
+//             foundEmail.password,
+//             function(err,result){
+//               res.send("ok");
+//               if(!err){
+//               if(result){
+//                 vars=true;
+                
+//               }
+//               else{
+//                 vars=false;
+                
+//               }
+//             }
+//             else{
+//               console.log(err);
+//             }
+//             }
+//           )
+//         }
+//       }
+//     }
+//   )
+//   if(vars){
+//     Regis.updateOne(
+//       {Regis:newpassword.email},
+//       bcrypt.hash(newpassword.newpass, function(err,hash){
+//         if(!err){
+//           password:hash
+//         }else{
+//           console.log(err);
+//         }
+       
+//       }),
+//       function(err){
+//         if(err){
+//           console.log(err);
+//         }
+//         else{
+//           res.json({status:"logout"});
+//         }
+//       }
 
+//     )
+//   }
+//   else{
+//     res.json({status:"incorrect"})
+//   }
+  
+// })
 // student token login
 app.post("/student/verifyToken", function(req,res){
 
