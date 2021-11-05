@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
-const PORT = 4000;
+const PORT = 4000 || process.env.PORT;
 
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
@@ -129,7 +129,7 @@ app.post("/login", function (req, res) {
   Regis.findOne({ email: newEmail }, function (err, foundEmail) {
     if (!err) {
       if (!foundEmail) {
-        res.json({ login: "false" });
+        res.json({ login: false });
       } else {
         if (foundEmail.verification === true) {
           bcrypt.compare(
@@ -137,7 +137,7 @@ app.post("/login", function (req, res) {
             foundEmail.password,
             function (err, results) {
               if (results === true) {
-                console.log(foundEmail);
+                
                 res.json({
                   login: true,
                   id: foundEmail.verficationId,
@@ -156,8 +156,8 @@ app.post("/login", function (req, res) {
           );
         } else {
           res.json({
-            login: "false",
-            verification: "false",
+            login: false,
+            verification: false,
           });
         }
       }
@@ -209,70 +209,63 @@ app.patch("/phone", function(req,res){
       }
     )
 })
-// change password
-// app.patch("/newpassword", function(req,res){
-//   let vars=true;
-//   let newpassword ={
-//     email:req.body.email,
-//     oldpassword: req.body.pass,
-//     newpass: req.body.newpass
-//   };
-//   Regis.findOne(
-//     {email:newpassword.email},
-//     function(err, foundEmail){
-//       if(!err){
-//         if(foundEmail){
-//           bcrypt.compare(
-//             newpassword.oldpassword,
-//             foundEmail.password,
-//             function(err,result){
-//               res.send("ok");
-//               if(!err){
-//               if(result){
-//                 vars=true;
-                
-//               }
-//               else{
-//                 vars=false;
-                
-//               }
-//             }
-//             else{
-//               console.log(err);
-//             }
-//             }
-//           )
-//         }
-//       }
-//     }
-//   )
-//   if(vars){
-//     Regis.updateOne(
-//       {Regis:newpassword.email},
-//       bcrypt.hash(newpassword.newpass, function(err,hash){
-//         if(!err){
-//           password:hash
-//         }else{
-//           console.log(err);
-//         }
-       
-//       }),
-//       function(err){
-//         if(err){
-//           console.log(err);
-//         }
-//         else{
-//           res.json({status:"logout"});
-//         }
-//       }
+// contactus
+app.post("/contactus", function(req,res){
+  mailOptions = {
+    to: "akshatdps12@gmail.com",
+    subject: "Contact US",
+    html:
+      "Name: "+req.body.name +"<br>" +
+      "From: "+req.body.email+"<br>"+
+      "Subject: " + req.body.subject+"<br>"+
+      "Message: "+req.body.message+"<br>",
+  };
+  console.log(mailOptions);
+  smtpTransport.sendMail(mailOptions, function (error, response) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Message sent: ");
+      res.send("Message Sent");
+    }
+  });
 
-//     )
-//   }
-//   else{
-//     res.json({status:"incorrect"})
-//   }
-  
-// })
+})
+// change password
+ app.post("/newpassword", function(req,res){
+   let changepassword={
+     email:req.body.email,
+     pass:req.body.pass,
+     oldpass:req.body.oldpass,
+     newpass:req.body.newpass
+   }
+   let newhas;
+   if(changepassword.pass===changepassword.oldpass){
+     
+    bcrypt.hash(changepassword.newpass,saltRounds,function(error,hash){
+      Regis.findOneAndUpdate(
+        {email:changepassword.email},
+        {password:hash },
+        function(err){
+          if(!err){
+            res.json({
+              status:true
+            })
+          }
+          else{
+            console.log(err);
+          }
+        }
+      )
+    })
+    
+   
+   }else{
+     res.json({
+       status:false
+     })
+   }
+ })
 // student token login
 app.post("/student/verifyToken", function(req,res){
 
