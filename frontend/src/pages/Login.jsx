@@ -1,10 +1,14 @@
 import React, {useEffect,useState} from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { notification } from 'antd';
+import Popup from '../components/Popup';
 import loginsvg from '../images/undraw_secure_login_pdn4.svg'
 function Login(props) {
-  const[nhref,setnhref]=useState(false);
+  const [popupShow, setPopupShow] =useState(false);
+  const [popupContent,setPopupContent]=useState({
+    heading:"",
+    messgae:""
+  });
     useEffect(()=>{
       let Signin = {
             
@@ -12,7 +16,7 @@ function Login(props) {
         password: Cookies.get('password')
         
     }
-        axios.post('http://localhost:4000/regiss/signin',Signin).then(function(response){
+        axios.post('http://localhost:4000/login',Signin).then(function(response){
             if(response.data.login===true){
               
                 props.history.push("/dashboard");
@@ -32,25 +36,17 @@ function Login(props) {
     const [dsignin, newSignin] = useState({
     
         email: "",
-        pass: "",
-        agreeterm: false
+        pass: ""
     });
     function handelChange(event) {
         const { name, value } = event.target;
     
     
         newSignin((prevValue) => {
-            if (name !== "agreeterm")
-                return {
-                    ...prevValue,
-                    [name]: value
-                }
-            else {
-                return {
-                    ...prevValue,
-                    [name]: !prevValue.agreeterm
-                }
-            }
+          return {
+            ...prevValue,
+            [name]: value
+        }
         });
     }
     function handelSubmit(event) {
@@ -61,28 +57,33 @@ function Login(props) {
             
         }
         
-         axios.post('http://localhost:4000/regiss/signin', Signin).then(function (response) {
+         axios.post('http://localhost:4000/login', Signin).then(function (response) {
              
             if(response.data.login===true){
-              console.log("ok");
+              console.log(response.data);
               Cookies.set('email',response.data.email,{expires:1});
               Cookies.set('password',response.data.password,{expires:1});
-              setnhref(true);
+             
               props.history.push('/dashboard');
               
             }else if(response.data.verification===false){
-                notification["error"]({
-                    message:"Email Verifcation",
-                    content:"Please verify your mail. Don't forgot to check in spam. For furthur quries contact adminstration."
-                })
+              setPopupContent({
+                heading:"Email Verifcation",
+                message:"Please verify your mail. Don't forgot to check in spam. For furthur quries contact adminstration."
+              });
+              setPopupShow(true);
+              
+                
             
               
             }
             else{
-                notification["error"]({
-                    message:"Incorrect creditential",
-                    content:""
-                })
+              setPopupContent({
+                heading:"Incorrect creditential",
+                message:"Please check your Email and Password."
+              });
+              setPopupShow(true);
+                
             
               
             }
@@ -107,7 +108,12 @@ function Login(props) {
 
   return (
     <>
+     
    <section className="sign-in">
+   <Popup
+        show={popupShow} heading={popupContent.heading} message={popupContent.message}
+        onHide={() => setPopupShow(false)}
+      />
       
         <div className="containers">
           <div className="signin-content">
@@ -143,7 +149,6 @@ function Login(props) {
                 
                 <div className="form-group form-button">
                   <input
-                    
                     type="submit"
                     name="signin"
                     id="signin"

@@ -1,8 +1,14 @@
 import React, {useEffect, useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Popup from '../components/Popup';
 import svgregister from '../images/undraw_Access_account_re_8spm.svg';
 function Register(props){
+    const [popupShow, setPopupShow] =useState(false);
+  const [popupContent,setPopupContent]=useState({
+    heading:"",
+    messgae:""
+  });
     const [dsignup, newSignup] = useState({
         jeeroll: "",
         email: "",
@@ -35,12 +41,12 @@ function Register(props){
             password: dsignup.pass,
             repassword: dsignup.repass
         }
-        axios.post('https://admissionportaliii.herokuapp.com/regiss/singup', Reg).then(function (response) {
+        axios.post('http://localhost:4000/register', Reg).then(function (response) {
             setPopupContent({
-                heading:response.data,
-                content:""
-              });
-              togglePopup();
+                heading:"Error",
+                message:response.data
+            })    
+            setPopupShow(true);
            
             return response.data;
         }).catch(function (error) {
@@ -71,7 +77,7 @@ function Register(props){
       }
 
         
-          axios.post('http://localhost:4000/regiss/signin',Signin).then(function(response){
+          axios.post('http://localhost:4000/register',Signin).then(function(response){
               if(response.data.login===true){
                 
                   props.history.push("/dashboard");
@@ -92,7 +98,10 @@ function Register(props){
     return(
         <>
         <section className="signup">
-           
+        <Popup
+        show={popupShow} heading={popupContent.heading} message={popupContent.message}
+        onHide={() => setPopupShow(false)}
+      />
                 <div className="containers">
                     <div className="signup-content">
                         <div className="signup-form">
@@ -101,7 +110,7 @@ function Register(props){
                                 <div className="form-group">
                                     <label for="jeeroll"><i className="zmdi zmdi-account material-icons-name"></i></label>
                                     <input required 
-                                        type="text"  value={dsignup.jeeroll} onChange={handelChange} name="jeeroll" id="jeeroll" placeholder="Your JEE Roll" />
+                                        type="text"  value={dsignup.jeeroll} onChange={handelChange} name="jeeroll" id="jeeroll" placeholder="Your Full Name" />
                                 </div>
                                 <div className="form-group">
                                     <label for="email"><i className="zmdi zmdi-email"></i></label>

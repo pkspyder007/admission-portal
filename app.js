@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
-const PORTS =  process.env.PORT;
+const PORT = 4000 || process.env.PORT;
 
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
@@ -302,6 +302,6 @@ app.get("/verify", function (req, res) {
   );
 });
 
-app.listen(PORTS, function () {
+app.listen(PORT, function () {
   console.log("Server is running on Port: " + PORT);
 });

@@ -1,11 +1,20 @@
 import React,{useEffect, useState } from 'react';
 import axios from 'axios';
+import {  useHistory } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'js-cookie';
 import Navbars from '../components/Navbar';
-
+import Instruction from '../components/Instruction';
+import Application from '../components/application';
+import Contactus from '../components/Contactus';
+import Profile from '../components/Profile';
+import Changepassword from '../components/Changepassword';
 function Dashboard(props){
-  
-  
+  let history = useHistory();
+  const [render,setRender]=useState(0);
+  const handelRender =(link)=>{
+    setRender(link);
+  }
   useEffect(()=>{
     let Signin = {
           
@@ -16,13 +25,13 @@ function Dashboard(props){
   }
 
     
-      axios.post('http://localhost:4000/regiss/signin',Signin).then(function(response){
+      axios.post('http://localhost:4000/login',Signin).then(function(response){
           if(response.data.login===true){
             
               
               
           }else{
-            props.history.push("/");
+            history.push("/");
           }
       }).catch(function (error) {
           console.log(error);
@@ -32,14 +41,31 @@ function Dashboard(props){
         password:""
       }
       
-  },[])
+  })
   
     return(
         <>
-        <Navbars  />
-
-        
-      
+         
+         <Navbars GoTo={handelRender} />
+         {
+           render==0 && <Instruction />
+         }
+        {
+            render==1 && <Instruction />
+        }
+        {
+            render==2 && <Application />
+        }
+        {
+            render==3 && <Contactus />
+        }
+        {
+            render==4 && <Profile />
+        }
+        {
+            render==5 && <Changepassword />
+        }
+         
         </>
     )
 }
