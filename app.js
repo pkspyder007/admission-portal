@@ -7,15 +7,14 @@ const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
-const PORT = 4000 || process.env.PORT;
+const PORT =  process.env.PORT;
 
 const dotenv = require("dotenv");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 dotenv.config();
 let Regis = require("./models/signup.model");
-const { log } = require("debug");
-const { findOne } = require("./models/signup.model");
+
 
 app.use(cors());
 app.use(bodyParser.json());
