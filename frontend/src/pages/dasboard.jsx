@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Cookies from 'js-cookie';
 import Navbars from '../components/Navbar';
 import Instruction from '../components/Instruction';
-import Application from '../components/application';
+import Application from '../components/Application';
 import Contactus from '../components/Contactus';
 import Profile from '../components/Profile';
 import Changepassword from '../components/Changepassword';
@@ -51,7 +51,7 @@ function Dashboard(props){
            render==0 && <Instruction />
          }
         {
-            render==1 && <Instruction />
+            render==1 && <Instruction GoTo={handelRender}/>
         }
         {
             render==2 && <Application />

@@ -1100,3 +1100,28 @@ h6 {
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out
 }
+/*Instructions */
+.con-instruction{
+  margin: 2% 7%;
+  padding: 2% 3%;
+  border-radius: 5px;
+  border: #000000 5px solid;
+}
+.instruction-li{
+  font-size: 26px;
+  line-height: 2;
+}
+.instruction-ol{
+  list-style-type: style type;
+}
+.instruction-btn{
+  display: flex;
+  justify-content: center;
+  
+}
+@media(max-width:600px){
+  .instruction-li{
+    font-size: 20px;
+    line-height: 2;
+  }
+}
