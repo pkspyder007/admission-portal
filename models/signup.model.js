@@ -20,6 +20,9 @@ let Regis = new Schema({
     },
     phone: {
         type: Number
+    },
+    name:{
+        type: String
     }
 });
 module.exports = mongoose.model('Regis', Regis);

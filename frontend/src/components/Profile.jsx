@@ -6,9 +6,10 @@ import Cookies from 'js-cookie';
 import MyVerticallyCenteredModal from './Inputpopup';
 function Profile(){
     const [modalShow, setModalShow] =useState(false);
+    const [addnn,setAddnn]=useState("");
     let history = useHistory();
     const [profile,setProfile]=useState({
-        name: "NULL",
+        name: "Add Name",
         email: "NULL",
         phone: "Add Number"
     });
@@ -22,19 +23,36 @@ function Profile(){
         }
             axios.post('http://localhost:4000/profile',Signin).then(function(response){
                 if(response.data.user===true){
-                    if(response.data.phone){
-                        setProfile({
+        
+                   if(response.data.phone){
+                        if(response.data.name){
+                            setProfile({
                             name: response.data.name,
                             email:response.data.email,
                             phone:response.data.phone
-                        });
-                    }
-                    else{
-                        setProfile({
+                            })
+                        }else{
+                            setProfile({
+                                name: "Add Name",
+                                email:response.data.email,
+                                phone:response.data.phone
+                                })
+                        }
+                        
+                    }else {
+                        if(response.data.name){
+                            setProfile({
                             name: response.data.name,
                             email:response.data.email,
                             phone:"Add Number"
-                        });
+                            })
+                        }else{
+                            setProfile({
+                                name: "Add Name",
+                                email:response.data.email,
+                                phone:"Add Number"
+                                })
+                        }
                     }
                 
                     
@@ -50,8 +68,18 @@ function Profile(){
             }
           
       })
+      function addName(event){
+          if(event.target.innerHTML==="Add Name"){
+              setAddnn("name");
+              setModalShow(true);
+          }
+          else{
+              // do nothing
+          }
+      }
       function addNumber(event){
           if(event.target.innerHTML==="Add Number"){
+              setAddnn("number");
             setModalShow(true);
           }
           else{
@@ -61,7 +89,7 @@ function Profile(){
     return (
         
         <>
-         <MyVerticallyCenteredModal
+         <MyVerticallyCenteredModal role={addnn}
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
@@ -74,7 +102,7 @@ function Profile(){
                         <div className="col-sm-4 bg-c-lite-green user-profile">
                             <div className="card-block text-center text-white">
                                 <div className="m-b-25"> <img src={profilesvg} className="img-radius" alt="User-Profile-Image" /> </div>
-                                <h6 className="f-w-600">{profile.name}</h6>
+                                <h6 onClick={addName} className="f-w-600">{profile.name}</h6>
                                 
                             </div>
                         </div>
@@ -88,7 +116,7 @@ function Profile(){
                                     </div>
                                     <div className="col-sm-6">
                                         <p className="m-b-10 f-w-600">Phone</p>
-                                        <h6 className="text-muted f-w-400 color-phone " className={profile.phone==="Add Number"?"changepointer text-muted f-w-400 color-phone":"text-muted f-w-400 color-phone"} onClick={addNumber}>{profile.phone}</h6>
+                                        <h6 className={profile.phone==="Add Number"?"changepointer text-muted f-w-400 color-phone":"text-muted f-w-400 color-phone"} onClick={addNumber}>{profile.phone}</h6>
                                     </div>
                                 </div>
                                 

@@ -48,7 +48,7 @@ function Dashboard(props){
          
          <Navbars GoTo={handelRender} />
          {
-           render==0 && <Instruction />
+           render==0 && <Instruction GoTo={handelRender} />
          }
         {
             render==1 && <Instruction GoTo={handelRender}/>

@@ -110,7 +110,7 @@ function Register(props){
                                 <div className="form-group">
                                     <label for="jeeroll"><i className="zmdi zmdi-account material-icons-name"></i></label>
                                     <input required 
-                                        type="text"  value={dsignup.jeeroll} onChange={handelChange} name="jeeroll" id="jeeroll" placeholder="Your Full Name" />
+                                        type="text"  value={dsignup.jeeroll} onChange={handelChange} name="jeeroll" id="jeeroll" placeholder="Enter your Jee Roll" />
                                 </div>
                                 <div className="form-group">
                                     <label for="email"><i className="zmdi zmdi-email"></i></label>

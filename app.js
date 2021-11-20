@@ -172,7 +172,7 @@ app.post("/profile", function(req,res){
             if(foundEmail){
               res.json({
                 user:true,
-                name:foundEmail.jeeroll,
+                name:foundEmail.name,
                 email:foundEmail.email,
                 phone: foundEmail.phone
               });
@@ -190,6 +190,7 @@ app.post("/profile", function(req,res){
 });
 // add phone number
 app.patch("/phone", function(req,res){
+  console.log("ok");
     let addphone= {
       email:req.body.email,
       phone:req.body.phone
@@ -207,6 +208,26 @@ app.patch("/phone", function(req,res){
         }
       }
     )
+})
+app.patch("/name", function(req,res){
+  console.log("ok");
+  let addphone= {
+    email:req.body.email,
+    phone:req.body.phone
+  };
+  Regis.findOneAndUpdate(
+    {email:addphone.email},
+    {name: addphone.phone},
+    function(err){
+      if(!err){
+        
+        res.send("Your Name added sucessfull ");
+      }
+      else{
+        console.log(err);
+      }
+    }
+  )
 })
 // contactus
 app.post("/contactus", function(req,res){
