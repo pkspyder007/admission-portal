@@ -47,8 +47,11 @@ function Dashboard(props){
         <>
          
          <Navbars GoTo={handelRender} />
+         <main >
+
+        
          {
-           render==0 && <Instruction GoTo={handelRender} />
+           render===0 && <Instruction GoTo={handelRender} />
          }
         {
             render==1 && <Instruction GoTo={handelRender}/>
@@ -65,7 +68,7 @@ function Dashboard(props){
         {
             render==5 && <Changepassword />
         }
-         
+          </main>
         </>
     )
 }

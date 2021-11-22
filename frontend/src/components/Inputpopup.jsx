@@ -22,8 +22,7 @@ function MyVerticallyCenteredModal(props) {
               }else{
                 path='http://localhost:4000/phone';
               }
-              alert(path);
-              console.log(path);
+              
               axios.patch(path,values).then(function(res){
                   props.onHide();
               }).catch(function (error) {
