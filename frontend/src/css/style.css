@@ -1146,7 +1146,9 @@ h6 {
   justify-content: start;
   align-items: center;
 }
-
+.sidebar-heading{
+  margin:0 auto;
+}
 .menu-bars {
   margin-left: 2rem;
   font-size: 2rem;
@@ -1222,4 +1224,66 @@ span {
 main{
   position: absolute;
   width: 100vw;
+}
+.application-main{
+  margin-left: 300px;
+  
+  
+}
+.application-main__container{
+  display: flex;
+  flex-direction: row;
+
+}
+.item-1{
+  width: 80%;
+  border: 1px solid rgb(58, 56, 56);
+  border-radius: 4px;
+  margin: 5px 5px;
+  overflow-y: auto;
+
+}
+.item-2{
+  width: 20%;
+  height: 85vh;
+  overflow-y:auto;
+}
+@media (max-width:900px){
+  .application-main{
+    margin-left: 10px;
+    
+    
+  }
+  .application-main__container{
+    flex-direction: column;
+  }
+  .item-1{
+    width: 100%;
+  }
+  .item-2{
+    width: 100%;
+  }
+}
+
+.help-heading{
+  text-align: center;
+}
+
+.help-li{
+  font-size: 16px;
+  line-height: 2;
+}
+.help-ol{
+  list-style-type: style type;
+}
+.help-btn{
+  display: flex;
+  justify-content: center;
+  
+}
+@media(max-width:600px){
+  .help-li{
+    font-size: 12px;
+    line-height: 2;
+  }
 }
