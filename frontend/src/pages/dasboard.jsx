@@ -16,6 +16,7 @@ function Dashboard(props){
     setRender(link);
   }
   useEffect(()=>{
+    
     let Signin = {
           
       email: Cookies.get('email'),
@@ -40,6 +41,8 @@ function Dashboard(props){
         email:"",
         password:""
       }
+     
+        
       
   })
   

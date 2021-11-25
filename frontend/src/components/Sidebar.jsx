@@ -1,21 +1,22 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { SidebarData } from "./SideMenuData";
 
 function Sidebar(props) {
+  
+  
   let headings=["Personal Details","Academic Details","Files"];
+  useEffect(()=>{
+    
+    setHeading(headings[props.index]);
+        
+    })
   const [sidebar, setSidebar] = useState(
     window.innerWidth > 900 ? true : false
   );
   const[heading,setHeading]=useState("Personal Details");
-function changeHeading(index){
- if(index<=props.rest){
-  setHeading(headings[index]);
- }
-  
-}
-  const showSidebar = () => setSidebar(!sidebar);
+ const showSidebar = () => setSidebar(!sidebar);
 
   return (
     <>
@@ -42,7 +43,7 @@ function changeHeading(index){
                 <li key={index} className={item.cName}>
                   <span>
                    {item.icon} 
-                    <span onClick={()=>{changeHeading(index);props.GoTo(index)}}>{item.title}</span>
+                    <span onClick={()=>{props.GoTo(index)}}>{item.title}</span>
                   </span>
                 </li>
               );

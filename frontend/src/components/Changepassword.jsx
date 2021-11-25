@@ -81,10 +81,10 @@ function Changepassword(){
             <h2 className="form-title">Change Password</h2>
             <form onSubmit={changePassword}  className="register-form" id="login-form">
             <div className="form-group">
-                <label for="pass">
+                <label className="label" for="pass">
                   <i className="zmdi zmdi-lock"></i>
                 </label>
-                <input
+                <input className="input"
                   onChange={passChange}
                   type="password"
                   value={password.oldpass}
@@ -94,10 +94,10 @@ function Changepassword(){
                 />
               </div>
               <div className="form-group">
-                <label for="newpass">
+                <label className="label" for="newpass">
                   <i className="zmdi zmdi-lock"></i>
                 </label>
-                <input
+                <input className="input"
                   onChange={passChange}
                   value={password.newpass}
                   type="password"
@@ -108,10 +108,10 @@ function Changepassword(){
                 />
               </div>
               <div className="form-group">
-                <label for="renewpass">
+                <label className="label" for="renewpass">
                   <i className="zmdi zmdi-lock"></i>
                 </label>
-                <input
+                <input className="input"
                   onChange={passChange}
                   type="password"
                   value={password.renewpass}
@@ -122,7 +122,7 @@ function Changepassword(){
               </div>
               
               <div className="form-group form-button">
-                <input
+                <input className="input"
                   type="submit"
                   name="signin"
                   id="signin"

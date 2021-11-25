@@ -130,14 +130,14 @@ function Login(props) {
               <h2 className="form-title">Sign in</h2>
               <form onSubmit={handelSubmit} className="register-form" id="login-form">
               <div className="form-group">
-              <label for="email"><i className="zmdi zmdi-email"></i></label>
-              <input onChange={handelChange} type="email" value={dsignin.email}  name="email" id="email" placeholder="Your Email"/>
+              <label className="label" for="email"><i className="zmdi zmdi-email"></i></label>
+              <input className="input" onChange={handelChange} type="email" value={dsignin.email}  name="email" id="email" placeholder="Your Email"/>
               </div>
                 <div className="form-group">
-                  <label for="pass">
+                  <label className="label" for="pass">
                     <i className="zmdi zmdi-lock"></i>
                   </label>
-                  <input
+                  <input className="input"
                     onChange={handelChange}
                     type="password"
                     value={dsignin.pass}
@@ -148,7 +148,7 @@ function Login(props) {
                 </div>
                 
                 <div className="form-group form-button">
-                  <input
+                  <input className="input"
                     type="submit"
                     name="signin"
                     id="signin"
