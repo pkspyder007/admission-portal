@@ -41,10 +41,7 @@ function Application(){
                     {render===1 && <AcademicDetails />}
                     {render===2 && <FileDetails  />}
                 </div>
-                <div className="application-main-item item-2">
-                    <Help />
-
-                </div>
+                
             </div>
         </section>
        
