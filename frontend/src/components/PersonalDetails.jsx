@@ -1,5 +1,7 @@
-import React, { useState} from "react";
-
+import React, { useState,useEffect} from "react";
+import axios from "axios";
+import Cookies from 'js-cookie';
+import {  useHistory } from "react-router-dom";
 import {
   Button,
   Checkbox,
@@ -36,10 +38,24 @@ const countryOptions = [
   { key: "in", value: "in", text: "India" },
 ];
 const area = [
-  { key: "r", text: "Rural", value: "rural" },
-  { key: "u", text: "Urban", value: "urban" },
+  { key: "r", text: "Rural", value: "Rural" },
+  { key: "u", text: "Urban", value: "Urban" },
 ];
-const options = [
+
+const ocupation=[
+  {key:"ar", text:"Artist"},
+  {key:"ba", text:"Business Analyst"},
+  {key:"bm", text:"Businessman/Buisnesswoman"},
+  {key:"cw", text:"Construction Worker"},
+  {key:"de", text:"Designer"},
+  {key:"do", text:"Doctor"},
+  {key:"en", text:"Engineer"},
+  {key:"ep", text:"Entrepreneur"},
+  {key:"fr", text:"Freelancer"},
+  {key:"po", text:"Politician"},
+  {key:"sw", text:"Social Worker"}
+  ];
+const geoptions = [
   { key: "m", text: "Male", value: "male" },
   { key: "f", text: "Female", value: "female" },
   { key: "o", text: "Other", value: "other" },
@@ -59,22 +75,128 @@ const mainCategory = [
 ];
 const mobileOptions = [{ key: "in", text: "+91", vale: "+91" }];
 function PersonalDetails(props) {
+  const [readP,setReadOnly]=useState(false);
+  let history = useHistory();
+  useEffect(() => {
+      let email={email:Cookies.get('email')};
+      
+      axios.post('http://localhost:4000/formone',email).then(function(response){
+      if(response.data.render!==0){
+        props.stopRest(response.data.render);
+        
+        setReadOnly(true);
+        setPersonal( {...response.data} )
+      }
+  
+}).catch(function (error) {
+  console.log(error);
+});
+  })
+  const[personal,setPersonal]=useState({
+    
+    name:"",
+    semail:"",
+    sgender:"",
+    sdob:"",
+    religion:"",
+    maincategory:"",
+    phone:"",
+    saadhar:"",
+    sarea:"",
+    state:"",
+    country:"",
+    pincode:"",
+    permadd:"",
+    temadd:"",
+    fname:"",
+    focupation:"",
+    femail:"",
+    fnum:"",
+    fsalary:"",
+    faadh:"",
+    mname:"",
+    mocupation:"",
+    memail:"",
+    mnum:"",
+    msalary:"",
+    maadh:""
+
+
+
+
+
+  })
+  function handelChange(e){
+    const { name, value } = e.target;
+    
+    
+        setPersonal((prevValue) => {
+          return {
+            ...prevValue,
+            [name]: value
+        }
+        });
+  }
+  function personalFormDetail(e){
+    const {name,
+    semail,
+    sgender,
+    sdob,
+    religion,
+    maincategory,
+    phone,
+    saadhar,
+    sarea,
+    state,
+    country,
+    pincode,
+    permadd,
+    temadd,
+    fname,
+    focupation,
+    femail,
+    fnum,
+    fsalary,
+    faadh,
+    mname,
+    mocupation,
+    memail,
+    mnum,
+    msalary,
+    maadh
+}=personal;
+let data=[Cookies.get('email'),personal]
+console.log(personal);
+axios.post('http://localhost:4000/personal',data).then(function(response){
+    
+  check(response.data.render);
+}).catch(function (error) {
+  console.log(error);
+});   
+  }
   function check(e) {
-    props.stopRest(1);
-    props.GoTo(1);
+    props.stopRest(e);
+    props.GoTo(e);
   }
   return (
     <>
-      <Form className="form-submit-1">
+      <Form onSubmit={personalFormDetail} className="form-submit-1">
         <Form.Group widths="equal">
           <Form.Field
+            readOnly={readP}
+            
+            onChange={handelChange}
+            value={personal.name}
             required
-            name="sfname"
+            name="name"
             control={Input}
             label="Full Name"
             placeholder="Full Name"
           />
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
+            value={personal.semail}
             required
             name="semail"
             type="email"
@@ -82,17 +204,24 @@ function PersonalDetails(props) {
             label="Student Email"
             placeholder="Student Email"
           />
+         
+            
+        
+        
           <Form.Field
-            required
-            name="sgender"
-            control={Select}
-            label="Gender"
-            options={options}
-            placeholder="Gender"
-          />
+            readOnly={readP}>
+            <label required>Gender<span className="pd-star">*</span></label>
+            <select className="pd-select" disabled={readP}  required placeholder="Gender" value={personal.sgender} onChange={handelChange} id="gender" name="sgender">
+            <option >Select....</option>
+            {geoptions.map(geoption => (<option>{geoption.text}</option>))}
+            </select>
+          </Form.Field>
         </Form.Group>
         <Form.Group widths="equal">
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
+            value={personal.sdob}
             required
             name="sdob"
             type="date"
@@ -101,6 +230,9 @@ function PersonalDetails(props) {
             placeholder="DOB"
           />
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
+            value={personal.religion}
             required
             name="religion"
             control={Input}
@@ -108,23 +240,30 @@ function PersonalDetails(props) {
             placeholder="Religion"
           />
           <Form.Field
-            required
-            name="maincategory"
-            control={Select}
-            label="Main Category"
-            options={mainCategory}
-            placeholder="Main Category"
-          ></Form.Field>
+            readOnly={readP}
+            
+          >
+             <label required>Main Category<span className="pd-star">*</span></label>
+            <select className="pd-select" disabled={readP} required placeholder="Main Category" value={personal.maincategory} onChange={handelChange}  name="maincategory">
+            <option >Select....</option>
+            {mainCategory.map(geoption => (<option>{geoption.text}</option>))}
+            </select>
+          </Form.Field>
         </Form.Group>
         <Form.Group widths="equal">
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
+            value={personal.phone}
             required
-            name="smnum"
+            name="phone"
             control={Input}
             label="Student Mobile Number"
             placeholder="Student Mobile Number"
           />
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="saadhar"
             control={Input}
@@ -132,16 +271,20 @@ function PersonalDetails(props) {
             placeholder="Student's Aadhaar Number"
           />
           <Form.Field
-            required
-            name="sarea"
-            control={Select}
-            label="Do you belong to"
-            options={area}
-            placeholder="Do you belong tor"
-          />
+            readOnly={readP}
+            
+          >
+             <label required>Do you belong to <span className="pd-star">*</span></label>
+            <select className="pd-select" disabled={readP} required placeholder="Do you belong to" value={personal.sarea} onChange={handelChange}  name="sarea">
+            <option >Select....</option>
+            {area.map(geoption => (<option>{geoption.text}</option>))}
+            </select>
+          </Form.Field>
         </Form.Group>
         <Form.Group widths="equal">
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="state"
             control={Input}
@@ -149,14 +292,18 @@ function PersonalDetails(props) {
             placeholder="Your State"
           />
           <Form.Field
-            required
-            name="country"
-            control={Select}
-            label="Country"
-            options={countryOptions}
-            placeholder="Country"
-          />
+            readOnly={readP}
+            
+          >
+            <label required>Countryoccupation array for html<span className="pd-star">*</span></label>
+            <select className="pd-select" disabled={readP} required placeholder="Country" value={personal.country} onChange={handelChange}  name="country">
+            <option >Select....</option>
+            {countryOptions.map(geoption => (<option>{geoption.text}</option>))}
+            </select>
+          </Form.Field>
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="pincode"
             control={Input}
@@ -166,6 +313,8 @@ function PersonalDetails(props) {
         </Form.Group>
         <Form.Group widths="equal">
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="permadd"
             control={Input}
@@ -173,6 +322,8 @@ function PersonalDetails(props) {
             placeholder="Your Perment Address"
           />
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             control={Input}
             name="temadd"
             label="Your Temperory Address"
@@ -181,6 +332,8 @@ function PersonalDetails(props) {
         </Form.Group>
         <Form.Group widths="equal">
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="fname"
             control={Input}
@@ -188,14 +341,19 @@ function PersonalDetails(props) {
             placeholder="Father's Name"
           />
           <Form.Field
-            required
-            name="focupation"
-            control={Select}
-            label="Father's Ocupation"
-            options={countryOptions}
-            placeholder="Father's Ocupation"
-          />
+            readOnly={readP}
+           
+
+          >
+            <label required>Father's Ocupation<span className="pd-star">*</span></label>
+            <select className="pd-select" disabled={readP} required placeholder="Father's Ocupation" value={personal.focupation} onChange={handelChange}  name="focupation">
+            <option >Select....</option>
+            {ocupation.map(geoption => (<option>{geoption.text}</option>))}
+            </select>
+            </Form.Field>
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="femail"
             type="email"
@@ -206,6 +364,8 @@ function PersonalDetails(props) {
         </Form.Group>
         <Form.Group widths="equal">
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="fnum"
             control={Input}
@@ -213,6 +373,8 @@ function PersonalDetails(props) {
             placeholder="Father's Mobile Number"
           />
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="fsalary"
             control={Input}
@@ -220,6 +382,8 @@ function PersonalDetails(props) {
             placeholder="Father's Salary in INR"
           />
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="faadh"
             control={Input}
@@ -229,6 +393,8 @@ function PersonalDetails(props) {
         </Form.Group>
         <Form.Group widths="equal">
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="mname"
             control={Input}
@@ -236,14 +402,20 @@ function PersonalDetails(props) {
             placeholder="Mother's Name"
           />
           <Form.Field
-            required
-            name="mocupation"
-            control={Select}
-            label="Mother's Ocupation"
-            options={countryOptions}
-            placeholder="Mother's Ocupation"
-          />
+            readOnly={readP}
+           
+
+           >
+             <label required>Monther's Ocupation<span className="pd-star">*</span></label>
+             <select className="pd-select" disabled={readP} required placeholder="Mother's Ocupation" value={personal.mocupation} onChange={handelChange}  name="mocupation">
+             <option >Select....</option>
+             {ocupation.map(geoption => (<option>{geoption.text}</option>))}
+             </select>
+             </Form.Field>
+          
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="memail"
             type="email"
@@ -254,6 +426,8 @@ function PersonalDetails(props) {
         </Form.Group>
         <Form.Group widths="equal">
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="mnum"
             control={Input}
@@ -261,6 +435,8 @@ function PersonalDetails(props) {
             placeholder="Mother's Mobile Number"
           />
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="msalary"
             control={Input}
@@ -268,6 +444,8 @@ function PersonalDetails(props) {
             placeholder="Mother's Salary in INR"
           />
           <Form.Field
+            readOnly={readP}
+            onChange={handelChange}
             required
             name="maadh"
             control={Input}
@@ -276,158 +454,14 @@ function PersonalDetails(props) {
           />
         </Form.Group>
 
-        <Form.Field className="submit-form-1" control={Button}>
+        {!readP&&<Form.Field
+          readOnly={readP}
+          onChange={handelChange} className="submit-form-1" control={Button}>
           Submit
-        </Form.Field>
+        </Form.Field>}
       </Form>
     </>
-    // <>
-    //   {/* <h1 onClick={check}>Personal Details</h1> */}
-    //   <div className="pd-container">
-    //       <form >
-    //     <div className="pd-rows">
-    //       <div className="pd-item pd-item-1-2">
-    //         <div className="pd-input-groups">
-    //           <label className="pd-label" for="pd-name">
-    //             <span className="pd-star">*</span>Your Full Name
-    //           </label>
-    //           <input
-    //             className="pd-input"
-    //             type="text"
-    //             name="name"
-    //             id="pd-name"
-    //             required
-    //             placeholder="Your Full Name"
-
-    //           />
-    //         </div>
-    //       </div>
-    //       <div className="pd-item pd-item-1-2">
-    //         <div className="pd-input-groups">
-    //           <label className="pd-label" for="pd-semail">
-    //             <span className="pd-star">*</span>Student Email
-    //           </label>
-    //           <input
-    //             className="pd-input"
-    //             type="email"
-    //             name="semail"
-    //             id="pd-semail"
-    //             required
-    //             placeholder="Student Email"
-    //           />
-    //         </div>
-    //       </div>
-    //     </div>
-
-    //     <div className="pd-rows">
-    //       <div className="pd-item pd-item-1-2-3">
-    //       <div className="pd-input-groups">
-    //           <label className="pd-label" for="pd-dob">
-    //             <span className="pd-star">*</span>Student Date of Birth
-    //           </label>
-    //           <input
-    //             className="pd-input"
-    //             type="date"
-    //             name="dob"
-    //             id="pd-dob"
-    //             required
-    //             placeholder="Student Date of Birth"
-    //           />
-    //         </div>
-    //       </div>
-    //       <div className="pd-item pd-item-1-2-3">
-    //       <div className="pd-input-groups">
-    //           <label className="pd-label" for="pd-name">
-    //             <span className="pd-star">*</span>Religion
-    //           </label>
-    //           <input
-    //             className="pd-input"
-    //             type="text"
-    //             name="religion"
-    //             id="pd-religion"
-    //             required
-    //             placeholder="Religion"
-    //             list="religion"
-    //           />
-    //           <datalist id="religion">
-    //               <option value="Ahir"/>
-    //               <option value="galva"/>
-    //           </datalist>
-    //         </div>
-    //       </div>
-    //       <div className="pd-item pd-item-1-3">
-    //       <div className="pd-input-groups">
-    //           <label className="pd-label" for="pd-gender">
-    //             <span className="pd-star">*</span>Gender
-    //           </label>
-    //           <input
-    //             className="pd-input"
-    //             type="text"
-    //             name="gender"
-    //             id="pd-gender"
-    //             required
-    //             placeholder="Gender"
-    //             list="gender"
-    //           />
-    //           <datalist id="gender">
-    //               <option value="Male"/>
-    //               <option value="Female"/>
-    //               <option value="Other" />
-    //           </datalist>
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <div className="pd-rows">
-    //       <div className="pd-item pd-item-1-2-3">
-    //       <div className="pd-input-groups">
-    //           <label className="pd-label" for="pd-name">
-    //             <span className="pd-star">*</span>Your Full Name
-    //           </label>
-    //           <input
-    //             className="pd-input"
-    //             type="text"
-    //             name="name"
-    //             id="pd-name"
-    //             required
-    //             placeholder="Your Full Name"
-    //           />
-    //         </div>
-    //       </div>
-    //       <div className="pd-item pd-item-1-2-3">
-    //       <div className="pd-input-groups">
-    //           <label className="pd-label" for="pd-name">
-    //             <span className="pd-star">*</span>Your Full Name
-    //           </label>
-    //           <input
-    //             className="pd-input"
-    //             type="text"
-    //             name="name"
-    //             id="pd-name"
-    //             required
-    //             placeholder="Your Full Name"
-    //           />
-    //         </div>
-    //       </div>
-    //       <div className="pd-item pd-item-1-3">
-    //       <div className="pd-input-groups">
-    //           <label className="pd-label" for="pd-name">
-    //             <span className="pd-star">*</span>Your Full Name
-    //           </label>
-    //           <input
-    //             className="pd-input"
-    //             type="text"
-    //             name="name"
-    //             id="pd-name"
-    //             required
-    //             placeholder="Your Full Name"
-    //           />
-    //         </div>
-    //       </div>
-    //     </div>
-    //     <button>submit</button>
-    //     </form>
-    //   </div>
-    // </>
+    
   );
 }
 

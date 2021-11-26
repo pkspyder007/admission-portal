@@ -102,6 +102,7 @@ app.post("/register", function (req, res) {
               password: hash,
               verification: false,
               verificationid: rand,
+              render:0
             });
             regi.save();
           });
@@ -285,6 +286,121 @@ app.post("/contactus", function(req,res){
        status:false
      })
    }
+ })
+ // personal detail form-1
+ app.get("/",function(req,res){
+   let email="20106@iiitu.ac.in"
+   Regis.findOne({email:email},function(err,foundEmail){
+    if(!err){
+      if(foundEmail){
+        res.send(foundEmail);
+      }
+    }
+   })
+ })
+ app.post("/personal",function(req,res){
+   const persnal=req.body;
+  //  Regis.findOne({email:persnal[0]},function(err,foundEmail){
+  //    if(!err){
+  //      if(foundEmail){
+  //       foundEmail.name=persnal[1].sname,
+  //       foundEmail.semail=persnal[1].semail,
+  //       foundEmail.sgender=persnal[1].sgender,
+  //       foundEmail.sdob=persnal[1].sdob,
+  //       foundEmail.religion=persnal[1].religion,
+  //       foundEmail.maincategory=persnal[1].maincategory,
+  //       foundEmail.smnum=persnal[1].smnum,
+  //       foundEmail.saadhar=persnal[1].saadhar,
+  //       foundEmail.sarea=persnal[1].sarea,
+  //       foundEmail.state=persnal[1].state,
+  //       foundEmail.country=persnal[1].country,
+  //       foundEmail.pincode=persnal[1].pincode,
+  //       foundEmail.permadd=persnal[1].permadd,
+  //       foundEmail.temadd=persnal[1].temadd,
+  //       foundEmail.fname=persnal[1].fname,
+  //       foundEmail.focupation=persnal[1].focupation,
+  //       foundEmail.femail=persnal[1].femail,
+  //       foundEmail.fnum=persnal[1].fnum,
+  //       foundEmail.fsalary=persnal[1].fsalary,
+  //       foundEmail.faadh=persnal[1].faadh,
+  //       foundEmail.mname=persnal[1].mname,
+  //       foundEmail.mocupation=persnal[1].mocupation,
+  //       foundEmail.memail=persnal[1].memail,
+  //       foundEmail.mnum=persnal[1].mnum,
+  //       foundEmail.msalary=persnal[1].msalary,
+  //       foundEmail.maadh=persnal[1].maadh,
+  //       foundEmail.render=1
+  //       res.json({
+  //         render:foundEmail.render
+  //       });
+  //       console.log(foundEmail);
+  //      }
+  //      else{
+  //        res.json({
+  //          render:-1
+  //        });
+  //      }
+  //    }else{
+  //      console.log(err);
+  //    }
+  //  })
+   Regis.findOneAndUpdate({email:persnal[0]},
+    {
+    name:persnal[1].name,
+    semail:persnal[1].semail,
+    sgender:persnal[1].sgender,
+    sdob:persnal[1].sdob,
+    religion:persnal[1].religion,
+    maincategory:persnal[1].maincategory,
+    phone:persnal[1].smnum,
+    saadhar:persnal[1].saadhar,
+    sarea:persnal[1].sarea,
+    state:persnal[1].state,
+    country:persnal[1].country,
+    pincode:persnal[1].pincode,
+    permadd:persnal[1].permadd,
+    temadd:persnal[1].temadd,
+    fname:persnal[1].fname,
+    focupation:persnal[1].focupation,
+    femail:persnal[1].femail,
+    fnum:persnal[1].fnum,
+    fsalary:persnal[1].fsalary,
+    faadh:persnal[1].faadh,
+    mname:persnal[1].mname,
+    mocupation:persnal[1].mocupation,
+    memail:persnal[1].memail,
+    mnum:persnal[1].mnum,
+    msalary:persnal[1].msalary,
+    maadh:persnal[1].maadh,
+    render:1
+    },
+    function(err,foundEmail){
+      if(!err){
+        res.json({
+          render:foundEmail.render
+        });
+        console.log(foundEmail);
+      }else{
+        console.lof(err);
+      }
+    }
+    )
+ })
+ // read only form-1
+ app.post("/formone",function(req,res){
+  let email=req.body.email;
+  
+  Regis.findOne({email:email},function(err,foundEmail){
+    if(!err){
+      if(foundEmail){
+        
+          res.send(foundEmail);
+        }
+      
+    }else{
+      console.log(err);
+    }
+  })
  })
 // student token login
 app.post("/student/verifyToken", function(req,res){

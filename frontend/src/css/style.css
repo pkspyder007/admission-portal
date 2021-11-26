@@ -1329,6 +1329,7 @@ main{
 
 }
 .pd-star{
+  margin-left: 0 !important;
   color: red;
 }
 .pd-input-groups{
@@ -1364,4 +1365,9 @@ main{
 }
 .ui .input{
   border: none !important;
+}
+.pd-select:disabled{
+  color: rgba(0,0,0,.87) !important;
+  opacity: 1 !important;
+
 }
