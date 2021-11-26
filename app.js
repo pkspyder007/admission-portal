@@ -352,7 +352,7 @@ app.post("/contactus", function(req,res){
     sdob:persnal[1].sdob,
     religion:persnal[1].religion,
     maincategory:persnal[1].maincategory,
-    phone:persnal[1].smnum,
+    phone:persnal[1].phone,
     saadhar:persnal[1].saadhar,
     sarea:persnal[1].sarea,
     state:persnal[1].state,

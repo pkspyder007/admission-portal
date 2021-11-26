@@ -263,6 +263,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
           />
           <Form.Field
             readOnly={readP}
+            value={personal.saadhar}
             onChange={handelChange}
             required
             name="saadhar"
@@ -284,6 +285,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
         <Form.Group widths="equal">
           <Form.Field
             readOnly={readP}
+            value={personal.state}
             onChange={handelChange}
             required
             name="state"
@@ -303,6 +305,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
           </Form.Field>
           <Form.Field
             readOnly={readP}
+            value={personal.pincode}
             onChange={handelChange}
             required
             name="pincode"
@@ -314,6 +317,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
         <Form.Group widths="equal">
           <Form.Field
             readOnly={readP}
+            value={personal.permadd}
             onChange={handelChange}
             required
             name="permadd"
@@ -323,6 +327,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
           />
           <Form.Field
             readOnly={readP}
+            value={personal.temadd}
             onChange={handelChange}
             control={Input}
             name="temadd"
@@ -333,6 +338,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
         <Form.Group widths="equal">
           <Form.Field
             readOnly={readP}
+            value={personal.fname}
             onChange={handelChange}
             required
             name="fname"
@@ -353,6 +359,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
             </Form.Field>
           <Form.Field
             readOnly={readP}
+            value={personal.femail}
             onChange={handelChange}
             required
             name="femail"
@@ -365,6 +372,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
         <Form.Group widths="equal">
           <Form.Field
             readOnly={readP}
+            value={personal.fnum}
             onChange={handelChange}
             required
             name="fnum"
@@ -374,6 +382,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
           />
           <Form.Field
             readOnly={readP}
+            value={personal.fsalary}
             onChange={handelChange}
             required
             name="fsalary"
@@ -383,6 +392,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
           />
           <Form.Field
             readOnly={readP}
+            value={personal.faadh}
             onChange={handelChange}
             required
             name="faadh"
@@ -395,6 +405,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
           <Form.Field
             readOnly={readP}
             onChange={handelChange}
+            value={personal.mname}
             required
             name="mname"
             control={Input}
@@ -416,6 +427,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
           <Form.Field
             readOnly={readP}
             onChange={handelChange}
+            value={personal.memail}
             required
             name="memail"
             type="email"
@@ -428,6 +440,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
           <Form.Field
             readOnly={readP}
             onChange={handelChange}
+            value={personal.mnum}
             required
             name="mnum"
             control={Input}
@@ -436,6 +449,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
           />
           <Form.Field
             readOnly={readP}
+            value={personal.msalary}
             onChange={handelChange}
             required
             name="msalary"
@@ -445,6 +459,7 @@ axios.post('http://localhost:4000/personal',data).then(function(response){
           />
           <Form.Field
             readOnly={readP}
+            value={personal.maadh}
             onChange={handelChange}
             required
             name="maadh"
