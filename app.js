@@ -289,7 +289,7 @@ app.post("/contactus", function(req,res){
  })
  // personal detail form-1
  app.get("/",function(req,res){
-   let email="20141@iiitu.ac.in"
+   let email="201@iiitu.ac.in"
    Regis.findOne({email:email},function(err,foundEmail){
     if(!err){
       if(foundEmail){

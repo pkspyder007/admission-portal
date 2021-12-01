@@ -97,7 +97,7 @@ function Contactus() {
               </div>
               <div class="cont-right">
                 <h6>Address</h6>
-                <p>Address here</p>
+                <p>Haryana,India</p>
               </div>
             </div>
           </div>
