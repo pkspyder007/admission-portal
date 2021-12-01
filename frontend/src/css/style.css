@@ -1172,6 +1172,7 @@ h6 {
 .nav-menu.active {
   left: 0;
   transition: 350ms;
+  z-index: 1000;
 }
 
 .nav-text {
@@ -1260,7 +1261,9 @@ main{
 .submit-form-1{
   text-align: center;
 }
-
+.ui.button:hover{
+  background-color: #1da0f2 !important;
+}
 .form-submit-1{
   width: 95% !important;
 }
@@ -1365,6 +1368,7 @@ main{
 }
 .ui .input{
   border: none !important;
+  padding: 0 !important;
 }
 .pd-select:disabled{
   color: rgba(0,0,0,.87) !important;

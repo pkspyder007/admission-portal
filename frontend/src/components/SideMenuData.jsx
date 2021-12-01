@@ -9,14 +9,11 @@ export const SidebarData = [
     cName: 'nav-text',
     icon: <PersonOutlineIcon />
   },
+  
   {
     title: 'Academic Details',
     cName: 'nav-text',
     icon: <SchoolIcon />
   },
-  {
-    title: 'File Upload',
-    cName: 'nav-text',
-    icon: <FileCopyIcon />
-  },
+
 ];

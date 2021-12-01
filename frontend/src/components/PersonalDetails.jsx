@@ -53,7 +53,9 @@ const ocupation=[
   {key:"ep", text:"Entrepreneur"},
   {key:"fr", text:"Freelancer"},
   {key:"po", text:"Politician"},
-  {key:"sw", text:"Social Worker"}
+  {key:"sw", text:"Social Worker"},
+  {key:"te", text:"Teacher"},
+  {key:"ot", text:"Other"}
   ];
 const geoptions = [
   { key: "m", text: "Male", value: "male" },
@@ -86,12 +88,25 @@ function PersonalDetails(props) {
         
         setReadOnly(true);
         setPersonal( {...response.data} )
+        if(!readP){
+        
+          const unloadCallback = (event) => {
+            event.preventDefault();
+            event.returnValue = "";
+            return "";
+          };
+        
+          window.addEventListener("beforeunload", unloadCallback);
+          return () => window.removeEventListener("beforeunload", unloadCallback);
+        }
       }
-  
+ 
 }).catch(function (error) {
   console.log(error);
 });
-  })
+
+
+  },[])
   const[personal,setPersonal]=useState({
     
     name:"",

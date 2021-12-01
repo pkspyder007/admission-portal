@@ -6,7 +6,7 @@ import { SidebarData } from "./SideMenuData";
 function Sidebar(props) {
   
   
-  let headings=["Personal Details","Academic Details","Files"];
+  let headings=["Personal Details","AcaddemicDetails"];
   useEffect(()=>{
     
     setHeading(headings[props.index]);

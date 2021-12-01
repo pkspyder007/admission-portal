@@ -289,7 +289,7 @@ app.post("/contactus", function(req,res){
  })
  // personal detail form-1
  app.get("/",function(req,res){
-   let email="20106@iiitu.ac.in"
+   let email="20141@iiitu.ac.in"
    Regis.findOne({email:email},function(err,foundEmail){
     if(!err){
       if(foundEmail){
@@ -401,6 +401,47 @@ app.post("/contactus", function(req,res){
       console.log(err);
     }
   })
+ })
+ // acdemic
+ app.post("/acdemic", function(req,res){
+   console.log(req.body);
+   const persnal=req.body;
+   Regis.findOneAndUpdate({email:persnal[0]},
+    {
+    jeeapplication:persnal[1].jeeapplication,
+    jeerank:persnal[1].jeerank,
+    jeeperc:persnal[1].jeeperc,
+    jeestate:persnal[1].jeestate,
+    jeeboard:persnal[1].jeeboard,
+    jeeschool:persnal[1].jeeschool,
+    jeemathp:persnal[1].jeemathp,
+    jeemathmp:persnal[1].jeemathmp,
+    jeematht:persnal[1].jeematht,
+    jeemathmt:persnal[1].jeemathmt,
+    jeemath:persnal[1].jeemath,
+    jeephysicsp:persnal[1].jeephysicsp,
+    jeephysicsmp:persnal[1].jeephysicsmp,
+    jeephysicst:persnal[1].jeephysicst,
+    jeephysicsmt:persnal[1].jeephysicsmt,
+    jeephysics:persnal[1].jeephysics,
+    jeechemp:persnal[1].jeechemp,
+    jeechemmp:persnal[1].jeechemmp,
+    jeechemt:persnal[1].jeechemt,
+    jeechemmt:persnal[1].jeechemmt,
+    jeechem:persnal[1].jeechem,
+    render:2
+    },
+    function(err,foundEmail){
+      if(!err){
+        res.json({
+          render:foundEmail.render
+        });
+        console.log(foundEmail);
+      }else{
+        console.lof(err);
+      }
+    }
+    )
  })
 // student token login
 app.post("/student/verifyToken", function(req,res){
